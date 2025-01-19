@@ -25,6 +25,7 @@ class Zombie(GameObject):
     self.image = pygame.transform.scale(self.image, (64, 64))
     self.rect = pygame.Rect(self.x, self.y, 64, 64)
 
+    self.zom_hp = ZOMBIE_HP
     self.default_life_time = randint(ZOMBIE_MIN_LIFETIME, ZOMBIE_MAX_LIFETIME)
     self.life_time = self.default_life_time
   
@@ -35,7 +36,11 @@ class Zombie(GameObject):
 
     for event in events:
       if event.type == pygame.MOUSEBUTTONDOWN and event.dict['button'] == 1:
-        self.state = GameObjectState.NOT_VISIBLE
+        self.zom_hp -= 1
+        
+        if self.zom_hp <= 0:
+          self.state = GameObjectState.NOT_VISIBLE
+        
         val = random()
         if val < 0.7:
           self.sfx1.play()
