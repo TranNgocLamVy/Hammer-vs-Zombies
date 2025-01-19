@@ -17,9 +17,7 @@ class Zombie(GameObject):
     self.sfx1 = pygame.mixer.Sound("assets/sfx/zombie1.mp3")
     self.sfx1.set_volume(0.3)
     self.sfx2 = pygame.mixer.Sound("assets/sfx/zombie2.mp3")
-    self.sfx2.set_volume(0.5)
-    self.sfx_special = pygame.mixer.Sound("assets/sfx/zombie_special.mp3")
-    self.sfx_special.set_volume(5)
+    self.sfx2.set_volume(0.7)
 
     self.image = pygame.image.load("assets/sprites/zombie.png").convert_alpha()
     self.image = pygame.transform.scale(self.image, (64, 64))
@@ -37,12 +35,10 @@ class Zombie(GameObject):
       if event.type == pygame.MOUSEBUTTONDOWN and event.dict['button'] == 1:
         self.state = GameObjectState.NOT_VISIBLE
         val = random()
-        if val < 0.7:
+        if val < 0.5:
           self.sfx1.play()
-        elif val < 0.95:
+        elif val <= 1:
           self.sfx2.play()
-        else:
-          self.sfx_special.play()
         
 
   def draw(self, surface: pygame.Surface):
@@ -98,7 +94,6 @@ class ZombieManager:
         self.game_manager.remove_hp()
       else:
         zombie.draw(surface)
-
 
   def handle_events(self, events: List[pygame.event.Event]):
     for zombie in self.zombies[:]:

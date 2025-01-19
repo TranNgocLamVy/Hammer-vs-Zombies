@@ -22,8 +22,6 @@ class Cursor(GameObject):
 
     self.sfx = pygame.mixer.Sound("assets/sfx/hammer.mp3")
     self.sfx.set_volume(0.3)
-    self.special_sfx = pygame.mixer.Sound("assets/sfx/special.mp3")
-    self.special_sfx.set_volume(2)
 
     self.is_animating = False
     self.rotation_angle = HAMMER_CURSOR_ANGLE_START
@@ -55,7 +53,4 @@ class Cursor(GameObject):
       if event.type == pygame.MOUSEBUTTONDOWN and event.dict['button'] == 1:
         # print(pygame.mouse.get_pos())
         self.is_animating = True
-        if random() < 0.05:
-          self.special_sfx.play()
-        else:
-          self.sfx.play()
+        self.sfx.play()
