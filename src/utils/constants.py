@@ -14,6 +14,8 @@ class GameObjectState(Enum):
   NOT_VISIBLE = 0
   VISIBLE = 1
   DESTROYED = 2
+  SPAWN_IN = 3
+  SPAWN_OUT = 4
 
 # Player
 PLAYER_MAX_HP = 10
