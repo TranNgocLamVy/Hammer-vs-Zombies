@@ -1,9 +1,14 @@
 import pygame
+import random
+import time
+
+random.seed(time.time())
 
 from src.utils.constants import *
 from src.utils.scene import SceneManager
 from src.scenes.game import GameScene
-from src.scenes.game_over import GameOverScene
+from src.scenes.menu import MenuScene
+
 
 pygame.init()
 pygame.display.set_caption("Hammer vs Zombies")
@@ -12,13 +17,13 @@ clock = pygame.time.Clock()
 running = True
 
 scene_manager = SceneManager(screen, clock)
+menu = MenuScene("menu", screen, clock, scene_manager)
 game = GameScene("game", screen, clock, scene_manager)
-game_over = GameOverScene("game_over", screen, clock, scene_manager)
 
+scene_manager.add_scene(menu)
 scene_manager.add_scene(game)
-scene_manager.add_scene(game_over)
 
-scene_manager.change_scene("game")
+scene_manager.change_scene("menu")
 
 while running:
   events = pygame.event.get()

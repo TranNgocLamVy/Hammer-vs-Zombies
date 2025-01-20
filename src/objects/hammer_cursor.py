@@ -1,6 +1,5 @@
 import pygame
 from typing import List
-from random import random
 
 from src.utils.game_object import GameObject
 from src.utils.constants import *
@@ -21,7 +20,7 @@ class Cursor(GameObject):
     self.crosshair = crosshair
 
     self.sfx = pygame.mixer.Sound("assets/sfx/hammer.mp3")
-    self.sfx.set_volume(0.3)
+    self.sfx.set_volume(0.2)
 
     self.is_animating = False
     self.rotation_angle = HAMMER_CURSOR_ANGLE_START
@@ -31,7 +30,6 @@ class Cursor(GameObject):
     if self.state != GameObjectState.VISIBLE:
       return
     
-    pygame.mouse.set_visible(False)
     mouse_x, mouse_y = pygame.mouse.get_pos()
 
     if self.is_animating:
