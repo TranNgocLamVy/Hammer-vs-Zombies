@@ -18,16 +18,28 @@ class Zombie(GameObject):
     self.sfx1.set_volume(0.2)
     self.sfx2 = pygame.mixer.Sound("assets/sfx/zombie2.mp3")
     self.sfx2.set_volume(0.4)
-
-    if random() > self.game_manager.zombie2_spawn_rate:
+    self.counter = 0
+    self.is_garg = False
+    
+    random_rate = random()
+    zom2_sp_rate = self.game_manager.zombie2_spawn_rate
+    garg_sp_rate = self.game_manager.garg_spawn_rate
+    if random_rate > zom2_sp_rate + garg_sp_rate:
       self.image = pygame.image.load("assets/sprites/zombie.png").convert_alpha()
       self.image = pygame.transform.scale(self.image, (64, 64))
       self.hp = 1
-    else:
+    elif random_rate > garg_sp_rate and random_rate < zom2_sp_rate + garg_sp_rate :
       self.image = pygame.image.load("assets/sprites/zombie2.png").convert_alpha()
       self.image = pygame.transform.scale(self.image, (84, 84))
       self.hp = 2
       self.y -= 10
+    else:
+      self.is_garg = True
+      self.image = pygame.image.load("assets/sprites/Garg_5hp.png").convert_alpha()
+      self.image = pygame.transform.scale(self.image, (67, 75))
+      self.x -= 3
+      self.hp = 5
+
 
     self.rect = pygame.Rect(self.x, self.y, 64, 64)
 
@@ -44,12 +56,25 @@ class Zombie(GameObject):
         
         self.hp -= 1
         if self.hp <= 0:
-          self.state = GameObjectState.NOT_VISIBLE
+          self.state = GameObjectState.SPAWN_OUT
           val = random()
           if val < 0.5:
             self.sfx1.play()
           elif val <= 1:
             self.sfx2.play()
+            
+        elif self.is_garg:
+          
+          sprite_path = "assets/sprites/Garg_" + str(self.hp) + "hp.png"
+          self.image = pygame.image.load(sprite_path).convert_alpha()
+          if self.hp >= 3: self.image = pygame.transform.scale(self.image, (67, 75))
+          elif self.hp == 2:
+            self.x += 4
+            self.y -= 9
+          elif self.hp == 1:
+            self.x -= 1
+            self.y -= 1
+          
         elif self.hp == 1:
           self.image = pygame.image.load("assets/sprites/zombie.png").convert_alpha()
           self.image = pygame.transform.scale(self.image, (64, 64))
@@ -58,6 +83,21 @@ class Zombie(GameObject):
         
 
   def draw(self, surface: pygame.Surface):
+    if (self.state == GameObjectState.SPAWN_OUT):  
+      self.counter += 1
+      self.y += 2
+      newHeight = self.image.get_height() - self.counter
+      if (newHeight <= 0):
+        self.state = GameObjectState.NOT_VISIBLE
+        return
+      cropped_image = pygame.Surface((self.image.get_width(), newHeight), pygame.SRCALPHA)
+      cropped_image.blit(self.image, (0, 0), (0, 0, self.image.get_width(), newHeight))
+      self.image = cropped_image
+      self.rect.topleft = (self.x, self.y)
+      self.image.set_alpha(255 - self.counter * 5)
+      surface.blit(self.image, (self.x, self.y))
+      return
+    
     self.rect.topleft = (self.x, self.y + (self.hp == 2) * 10)
 
     if self.state != GameObjectState.VISIBLE:

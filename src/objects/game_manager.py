@@ -23,6 +23,7 @@ class GameManager(object):
     self.is_paused = False
 
     self.zombie2_spawn_rate = 0.2
+    self.garg_spawn_rate = 0
     self.zombie_spawn_quantity = ZOMBIE_SPAWN_QUANTITY
     self.zombie_spawn_interval = ZOMBIE_SPAWN_INTERVAL
 
@@ -61,18 +62,67 @@ class GameManager(object):
           self.missed += 1
 
   def adjust_difficulty(self):
-    if self.score >= 50:
+    # if self.score >= 10 and self.score < 20:
+    #   self.zombie_spawn_quantity = 1
+    #   self.zombie_spawn_interval = 1000
+    #   self.garg_spawn_rate = 0.05
+    # elif self.score >= 20 and self.score < 30:
+    #   self.zombie_spawn_quantity = 2
+    #   self.zombie_spawn_interval = 1000
+    #   self.zombie2_spawn_rate = 0.25
+    #   self.garg_spawn_rate = 0.075
+    # elif self.score >= 30 and self.score < 40:
+    #   self.zombie_spawn_quantity = 2
+    #   self.zombie_spawn_interval = 800
+    #   self.garg_spawn_rate = 0.1
+    # elif self.score >= 40 and self.score < 50:
+    #   self.zombie_spawn_quantity = 2
+    #   self.zombie_spawn_interval = 750
+    #   self.zombie2_spawn_rate = 0.3
+    #   self.hp_spawn_rate = 0.05
+    # elif self.score >= 50 and self.score < 100:
+    #   self.zombie_spawn_quantity = 3
+    #   self.zombie_spawn_interval = 1500
+    #   self.hp_spawn_rate = 0.075
+    # elif self.score >= 100:
+    #   self.zombie_spawn_quantity = 3
+    #   self.zombie_spawn_interval = 950
+    #   self.zombie2_spawn_rate = 0.4
+    #   self.garg_spawn_rate = 0.15
+      
+    #easy
+      
+    if self.score >= 10 and self.score < 20:
+      self.zombie_spawn_quantity = 1
+      self.zombie_spawn_interval = 1000
+    elif self.score >= 20 and self.score < 50:
       self.zombie_spawn_quantity = 2
-      self.zombie_spawn_interval = 800
-    elif self.score >= 100:
+      self.zombie_spawn_interval = 1250
+      self.zombie2_spawn_rate = 0.25
+    elif self.score >= 50 and self.score < 75:
       self.zombie_spawn_quantity = 2
-      self.zombie_spawn_interval = 600
-    elif self.score >= 150:
+      self.zombie_spawn_interval = 1200
+      self.garg_spawn_rate = 0.05
+    elif self.score >= 75 and self.score < 100:
+      self.zombie_spawn_quantity = 2
+      self.zombie_spawn_interval = 1100
+      self.zombie2_spawn_rate = 0.3
+      self.garg_spawn_rate = 0.075
+      self.hp_spawn_rate = 0.05
+    elif self.score >= 100 and self.score < 150:
       self.zombie_spawn_quantity = 3
-      self.zombie_spawn_interval = 800
-    elif self.score >= 200:
+      self.zombie_spawn_interval = 1500
+      self.hp_spawn_rate = 0.075
+    elif self.score >= 150 and self.score < 200:
       self.zombie_spawn_quantity = 3
-      self.zombie_spawn_interval = 400
+      self.zombie_spawn_interval = 1250
+      self.zombie2_spawn_rate = 0.4
+      self.garg_spawn_rate = 0.1
+    elif self.score > 200:
+      self.zombie_spawn_quantity = 2
+      self.zombie_spawn_interval = 1500
+      self.zombie2_spawn_rate = 0.85
+      self.garg_spawn_rate = 0.15
 
   def hit_zombie(self, score: int = 1):
     self.score += score
@@ -90,6 +140,7 @@ class GameManager(object):
     self.time_multiplier = 1
     self.hp = PLAYER_MAX_HP
     self.zombie2_spawn_rate = 0.2
+    self.garg_spawn_rate = 0
     self.zombie_spawn_quantity = ZOMBIE_SPAWN_QUANTITY
     self.zombie_spawn_interval = ZOMBIE_SPAWN_INTERVAL
     self.hp_spawn_rate = 0.02
