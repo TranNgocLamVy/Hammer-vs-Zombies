@@ -31,7 +31,6 @@ class Zombie(GameObject):
 
     self.rect = pygame.Rect(self.x, self.y, 64, 64)
 
-    self.zom_hp = ZOMBIE_HP
     self.default_life_time = randint(ZOMBIE_MIN_LIFETIME, ZOMBIE_MAX_LIFETIME)
     self.life_time = self.default_life_time
   
